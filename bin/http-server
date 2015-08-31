@@ -35,7 +35,8 @@ if (argv.h || argv.help) {
     "",
     "  -r --robots        Respond to /robots.txt [User-agent: *\\nDisallow: /]",
     "  -h --help          Print this list and exit.",
-    "  -R --rewrites      Path to json file with a rewrites argument."
+    "  -R --rewrites      Path to json file with a rewrites property.",
+    "  -M --mounts        Path to json file with a mounts property."
   ].join('\n'));
   process.exit();
 }
@@ -46,6 +47,7 @@ var port = argv.p || parseInt(process.env.PORT, 10),
     ssl = !!argv.S || !!argv.ssl,
     proxy = argv.P || argv.proxy,
     rewrites = argv.R || argv.rewrites,
+    mounts = argv.M || argv.mounts,
     requestLogger;
 
 if (!argv.s && !argv.silent) {
@@ -94,6 +96,10 @@ function listen(port) {
 
   if (rewrites) {
     options.rewrites = rewrites;
+  }
+
+  if (mounts) {
+    options.mounts = mounts;
   }
 
   var server = httpServer.createServer(options);
